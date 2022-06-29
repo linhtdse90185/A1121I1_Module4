@@ -5,6 +5,7 @@ import codegym.vn.service.StudentService;
 import codegym.vn.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class StudentController {
 //    }
 
     @GetMapping(value = "/list"
+//        consumes = {MediaType.APPLICATION_JSON_VALUE}
 //            ,headers = {"Content-Type=text/html","Accept=application/xml"}
             )
     public String list(Model model) {

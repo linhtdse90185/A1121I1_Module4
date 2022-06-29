@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Display all student</h1>
+<table border="1">
+    <tr>
+        <th>Index</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Class name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Sex</th>
+        <th>Action</th>
+    </tr>
+    <tbody th:each="st, iterStat: ${students}">
+        <tr th:object="${st}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${iterStat.current.id}"></td>
+            <td th:text="*{name}"></td>
+            <td th:text="*{className}"></td>
+            <td th:text="*{email}"></td>
+            <td th:text="*{phoneNumber}"></td>
+            <td th:text="*{sex}"></td>
+            <td>
+                <a th:href="@{/student/view(id=*{id}, name=*{name})}">View</a>
+            </td>
+        </tr>
+    </tbody>
+    </c:forEach>
+
+</table>
+</body>
+</html>
