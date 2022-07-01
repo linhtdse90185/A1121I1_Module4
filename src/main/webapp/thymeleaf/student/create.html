@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create student</title>
+</head>
+<body>
+<h1>Create new Student</h1>
+<a th:href="@{/student/list}">Back to list</a>
+<form th:action="@{/student/create}" method="post" th:object="${student}">
+    <table border="1">
+        <tr>
+            <td>ID</td>
+            <td><input type="text" th:field="*{id}"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Class Name</td>
+            <td>
+                <select th:field="*{className}">
+                    <option value=""></option>
+                    <option th:each="className : ${classNames}"
+                            th:value="${className}"
+                            th:text="${className}"
+                            th:selected="${className.equals(student.className)}" />
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" th:field="*{email}"></td>
+        </tr>
+        <tr>
+            <td>Phone Number</td>
+            <td><input type="text" th:field="*{phoneNumber}"></td>
+        </tr>
+        <tr>
+            <td>Sex</td>
+            <td>
+                <input type="radio" th:field="*{sex}" th:value="true" id="male" th:selected="*{sex}">
+                <label th:text="Male" th:for="male"/>
+                <input type="radio" th:field="*{sex}" th:value="false" id="female" th:selected="*{!sex}">
+                <label th:text="Female" th:for="female"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Register" />
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

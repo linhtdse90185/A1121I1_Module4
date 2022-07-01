@@ -2,50 +2,52 @@ package codegym.vn.repository;
 
 import codegym.vn.entity.Student;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
+//@Transactional
 public class StudentRepositoryImpl implements StudentRepository {
-    private static Map<String, Student> studentMap = new HashMap<>();
-    static {
-        studentMap.put("SV001", new Student("SV001", "Hoàng"));
-        studentMap.put("SV002", new Student("SV002", "Lan"));
-        studentMap.put("SV003", new Student("SV003", "Nam"));
-        studentMap.put("SV004", new Student("SV004", "Thuy"));
-        studentMap.put("SV005", new Student("SV005", "Manh"));
-    }
+    @PersistenceContext
+    EntityManager entityManager;
+
     @Override
     public void create(Student student) {
-        if (!studentMap.containsKey(student.getId())) {
-            studentMap.put(student.getId(), student);
-        }
+        entityManager.persist(student);
     }
 
     @Override
     public void update(Student student) {
-        if (studentMap.containsKey(student.getId())) {
-            studentMap.put(student.getId(), student);
-        }
+        entityManager.merge(student);
     }
 
     @Override
     public void delete(String id) {
-        if (studentMap.containsKey(id)) {
-            studentMap.remove(id);
-        }
+        Student student = findById(id);
+        entityManager.remove(student);
     }
 
     @Override
     public List<Student> findAll() {
-        return new ArrayList<>(studentMap.values());
+        // HQL
+        List<Student> students = entityManager
+                .createQuery("select s from Student s")
+                .getResultList();
+        // Native SQL
+//        students = entityManager
+//                .createNativeQuery("select * from Student")
+//                .getResultList();
+        return students;
     }
 
     @Override
     public Student findById(String id) {
-        return studentMap.get(id);
+        return entityManager.find(Student.class, id);
     }
 }
